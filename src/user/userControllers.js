@@ -1,5 +1,10 @@
 const { response } = require("express");
 const User = require("./userModel");
+// check if table users exists if not create it
+User.sync({ force: false })
+    .then(() => {
+        console.log("table created");
+    })
 
 // create new user
 exports.createUsers = async (req, res) => {

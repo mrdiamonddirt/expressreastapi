@@ -26,14 +26,14 @@ const User = sequelize.define("User", {
     //     type: DataTypes.STRING,
     //     allowNull: false,
     // },
-    // createdAt: {
-    //     type: DataTypes.DATE,
-    //     allowNull: false,
-    // },
-    // updatedAt: {
-    //     type: DataTypes.DATE,
-    //     allowNull: false,
-    // },
+    createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    },
+    updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    },
 });
 
 module.exports = User;
