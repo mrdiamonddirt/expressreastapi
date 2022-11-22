@@ -1,4 +1,5 @@
 const { response } = require("express");
+const { Sequelize } = require ('sequelize');
 const User = require("./userModel");
 // check if table users exists if not create it
 User.sync({ force: false })
@@ -11,14 +12,17 @@ exports.createUsers = async (req, res) => {
     console.log(req.body);
     try {
         const user = await User.create(req.body);
-        res.status(201).json({
+        const token = user.generateAuthToken({ id: user.id }, process.env.JWT_SECRET, {
+            expiresIn: 3600,
+            });
+        res.status(201).send({
             status: "success",
             data: {
                 user,
-            },
+            }, token
         });
     } catch (err) {
-        res.status(400).json({
+        res.status(400).send({
             status: "fail",
             message: err,
         });
@@ -30,7 +34,7 @@ exports.getAllUsers = async (req, res) => {
     console.log(req.body);
     try {
         const users = await User.findAll();
-        res.status(200).json({
+        res.status(200).send({
             status: "success",
             results: users.length,
             data: {
@@ -38,7 +42,7 @@ exports.getAllUsers = async (req, res) => {
             },
         });
     } catch (err) {
-        res.status(404).json({
+        res.status(404).send({
             status: "fail",
             message: err,
         });
@@ -64,21 +68,47 @@ exports.getUser = async (req, res) => {
     }
 }
 
-// delete user
-exports.deleteUser = async (req, res) => {
+// update user
+exports.updateUser = async (req, res) => {
     console.log(req.params);
     try {
-        await User.destroy({
+        const user = await User.update(req.body, {
             where: {
                 id: req.params.id,
             },
         });
-        res.status(204).json({
+        res.status(200).send({
             status: "success",
-            data: null,
+            data: {
+                user,
+            },
         });
     } catch (err) {
-        res.status(404).json({
+        res.status(404).send({
+            status: "fail",
+            message: err,
+        });
+    }
+}
+
+// delete user
+exports.deleteUser = async (req, res) => {
+    console.log(req.body);
+    try {
+        await User.destroy({
+            where: {
+                id: req.body.id,
+            },
+            destroy: true,
+        });
+        res.status(204).send({
+            status: "success",
+            data: {
+                user: null,
+            },
+        });
+    } catch (err) {
+        res.status(404).send({
             status: "fail",
             message: err,
         });
