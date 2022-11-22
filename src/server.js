@@ -11,5 +11,12 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
 
-// parse application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: false }));
+// sequelize connection
+sequelize.authenticate()
+    .then(() => {
+        console.log('Connection has been established successfully.');
+    })
+    .catch(err => {
+        console.error('Unable to connect to the database:', err);
+    }
+);
