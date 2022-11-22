@@ -1,5 +1,5 @@
 const { response } = require("express");
-const User = require("../models/userModel");
+const User = require("./userModel");
 
 // create new user
 exports.createUsers = async (req, res) => {

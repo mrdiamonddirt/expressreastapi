@@ -1,5 +1,6 @@
 const { sequelize } = require('./db/connection');
 const express = require('express');
+const userRouter = require('./user/userRouter');
 // port connection
 const port = process.env.PORT || 3000;
 
@@ -10,6 +11,9 @@ const app = express();
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+app.use(express.json());
+app.use(userRouter)
 
 // sequelize connection
 sequelize.authenticate()
