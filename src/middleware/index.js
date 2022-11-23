@@ -7,13 +7,14 @@ const validator = require('email-validator');
 exports.hashPassword = async (req, res, next) => {
     console.log(req.body);
     try {
-        // const salt = await bcrypt.genSalt(10);
-        req.body.password = await bcrypt.hash(req.body.password, 10);
-        next();
+        const salt = await bcrypt.genSalt(10);
+        req.body.password = await bcrypt.hash(req.body.password, salt);
+        
         console.log('hashing complete')
     } catch (err) {
         res.status(500).send('Error hashing password');
     }
+    next();
 };
 
 // compare password
@@ -27,32 +28,36 @@ exports.comparePassword = async (req, res, next) => {
         } else {
             return res.status(200).send({ msg: 'Login Success' });
         }
-        next();
+        
     } catch (err) {
         res.status(500).send({
             status: 'fail',
             message: err,
         });
     }
+    next();
 };
 
 // token check including creation of token and verification of token
 
 exports.tokenCheck = async (req, res, next) => {
+    console.log(req);
     try {
         const token = req.header('Authorization').replace('Bearer ', '');
-        if (!token) {
-            return res.status(401).send({ msg: 'No token, authorization denied' });
-        }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded.user;
-        next();
+        const user = await User.findById(decoded.id);
+        if (!user) {
+            req.user = user;
+            console.log('Token Verified')
+            console.log(user)
+        }
     } catch (err) {
         res.status(500).send({
             status: 'fail',
             message: err,
         });
     }
+    next();
 };
 
 // validate email
@@ -60,6 +65,7 @@ exports.tokenCheck = async (req, res, next) => {
 exports.validateEmail = async (req, res, next) => {
     try {
         if (validator.validate(req.body.email)) {
+            console.log('email is valid');
             next();
         } else {
             res.status(400).send({
@@ -70,4 +76,5 @@ exports.validateEmail = async (req, res, next) => {
     } catch (err) {
         res.status(500).send({error: err.message});
     }
+    next();
 }

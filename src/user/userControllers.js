@@ -1,5 +1,6 @@
 const { response } = require("express");
 const { Sequelize } = require ('sequelize');
+const JWT = require('jsonwebtoken');
 const User = require("./userModel");
 // check if table users exists if not create it
 User.sync({ force: false })
@@ -11,16 +12,15 @@ User.sync({ force: false })
 exports.createUsers = async (req, res) => {
     console.log(req.body);
     try {
-        const user = await User.create(req.body);
-        const token = user.generateAuthToken({ id: user.id }, process.env.JWT_SECRET)
+        const newUser = await User.create(req.body);
+        const token = await JWT.sign({ id: newUser.id }, process.env.JWT_SECRET, {
+            expiresIn: "1d",
+        });
 
         res.status(201).send({
-            status: "success",
-            data: {
-                user, token
-            }
+            user: newUser, token
         });
-        
+
     } catch (err) {
         res.status(400).send({
             status: "fail",
