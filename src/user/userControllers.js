@@ -12,15 +12,15 @@ exports.createUsers = async (req, res) => {
     console.log(req.body);
     try {
         const user = await User.create(req.body);
-        const token = user.generateAuthToken({ id: user.id }, process.env.JWT_SECRET, {
-            expiresIn: 3600,
-            });
+        const token = user.generateAuthToken({ id: user.id }, process.env.JWT_SECRET)
+
         res.status(201).send({
             status: "success",
             data: {
-                user,
-            }, token
+                user, token
+            }
         });
+        
     } catch (err) {
         res.status(400).send({
             status: "fail",
@@ -91,20 +91,20 @@ exports.updateUser = async (req, res) => {
     }
 }
 
+
 // delete user
 exports.deleteUser = async (req, res) => {
-    console.log(req.body);
+    console.log(req.params);
     try {
         await User.destroy({
             where: {
-                id: req.body.id,
+                id: req.params.id,
             },
-            destroy: true,
         });
-        res.status(204).send({
+        res.status(200).send({
             status: "success",
             data: {
-                user: null,
+                user: 'user deleted',
             },
         });
     } catch (err) {
@@ -114,6 +114,8 @@ exports.deleteUser = async (req, res) => {
         });
     }
 }
+
+
 
 // login user
 exports.loginUser = async (req, res) => {
@@ -126,11 +128,12 @@ exports.loginUser = async (req, res) => {
                     password: req.body.password,
                 },
             });
-            response.status(200).json({
+            const token = await JWT.sign({ id: user.id }, process.env.JWT_SECRET,)
+            response.status(200).send({
                 status: "success",
                 data: {
-                    user,
-                },
+                    user, token
+                }, 
             });
         } else {
             res.status(400).json({
