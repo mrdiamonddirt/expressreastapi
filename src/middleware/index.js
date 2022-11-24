@@ -21,12 +21,15 @@ exports.hashPassword = async (req, res, next) => {
 
 exports.comparePassword = async (req, res, next) => {
   try {
-    const user = await User.findOne({ username: req.body.username });
-    const isMatch = await bcrypt.compare(req.body.password, user.password);
-    if (!isMatch) {
-      return res.status(400).send({ msg: "Invalid Credentials" });
+    req.user = await User.findOne({ 
+      where:
+      {email: req.body.email} 
+    });
+    if (req.user && await bcrypt.compare(req.body.password, req.user.password)) {
+      console.log("username and password match");
+      next();
     } else {
-      return res.status(200).send({ msg: "Login Success" });
+      throw new Error('Invalid username or password');
     }
   } catch (err) {
     res.status(500).send({
@@ -34,21 +37,21 @@ exports.comparePassword = async (req, res, next) => {
       message: err,
     });
   }
-  next();
 };
 
 // token check including creation of token and verification of token
 
 exports.tokenCheck = async (req, res, next) => {
-  console.log(req);
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
-    if (!user) {
+    console.log(decoded)
+    const user = await User.findByPk(decoded._id);
+    if (user) {
       req.user = user;
       console.log("Token Verified");
       console.log(user);
+      next();
     }
   } catch (err) {
     res.status(500).send({
@@ -56,7 +59,6 @@ exports.tokenCheck = async (req, res, next) => {
       message: err,
     });
   }
-  next();
 };
 
 // validate email
