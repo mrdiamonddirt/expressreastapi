@@ -8,24 +8,27 @@ User.sync({ force: false })
         console.log("table created");
     })
 
+
 // create new user
 exports.createUsers = async (req, res) => {
-    console.log(req.body);
+    let statuscode = 201;
+    let body;
     try {
         const newUser = await User.create(req.body);
         const token = await JWT.sign({ id: newUser.id }, process.env.JWT_SECRET, {
             expiresIn: "1d",
         });
 
-        res.status(201).send({
-            user: newUser, token
+        return res.status(201).send({
+                user: newUser,
+                token: token
         });
-
     } catch (err) {
-        res.status(400).send({
-            status: "fail",
-            message: err,
-        });
+        console.log(err.message)
+        // response.status(500).send({
+        //     status: "fail",
+        //     message: err.message
+        // });
     }
 };
 

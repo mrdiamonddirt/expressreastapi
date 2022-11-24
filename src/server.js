@@ -7,11 +7,6 @@ const port = process.env.PORT || 3000;
 // express app
 const app = express();
 
-// listener
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
-
 app.use(express.json());
 app.use(userRouter)
 
@@ -24,3 +19,8 @@ sequelize.authenticate()
         console.error('Unable to connect to the database:', err);
     }
 );
+
+// listener
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
