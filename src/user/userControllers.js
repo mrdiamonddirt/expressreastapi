@@ -7,10 +7,9 @@ User.sync({ force: false }).then(() => {
   console.log("table created");
 });
 
-// create new user
+// create new user and account
+
 exports.createUsers = async (req, res) => {
-  let statuscode = 201;
-  let body;
   try {
     const newUser = await User.create(req.body);
     const token = await JWT.sign({ id: newUser.id }, process.env.JWT_SECRET, {
@@ -29,7 +28,7 @@ exports.createUsers = async (req, res) => {
   }
 };
 
-// return all users
+// return all users in database
 exports.getAllUsers = async (req, res) => {
   console.log(req.body);
   try {
@@ -49,7 +48,7 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-// get one user
+// get one user data from db 
 exports.getUser = async (req, res) => {
   console.log(req.params);
   try {
@@ -66,7 +65,8 @@ exports.getUser = async (req, res) => {
   }
 };
 
-// update user
+// update user may change to update account password after login
+
 exports.updateUser = async (req, res) => {
   console.log(req.params);
   try {
@@ -89,7 +89,9 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-// delete user
+// delete own user account after password check
+// can also be used in an admin panel to delete users
+
 exports.deleteUser = async (req, res) => {
   console.log(req.params);
   try {
@@ -112,7 +114,7 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-// login user
+// login user and return token
 exports.loginUser = async (req, res) => {
     console.log(req.body);
   try {
