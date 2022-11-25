@@ -4,7 +4,7 @@ const {hashPassword, comparePassword, tokenCheck, validateEmail} = require('../m
 const userRouter = Router();
 
 userRouter.post('/addUser', hashPassword, validateEmail, createUsers);
-userRouter.post('/loginUser', comparePassword, tokenCheck, loginUser);
+userRouter.post('/loginUser', comparePassword,  loginUser); // token check removed
 userRouter.get('/getUsers', getAllUsers);
 userRouter.get('/getUser/:id?', getUser);
 userRouter.put('/updateUser/:id', hashPassword, validateEmail, updateUser);
