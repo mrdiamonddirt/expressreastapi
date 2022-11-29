@@ -50,15 +50,15 @@ exports.tokenCheck = async (req, res, next) => {
     if (user) {
       req.user = user;
       console.log("Token Verified");
-      console.log(user);
-      next();
+      console.log(user); 
     }
+    next();
   } catch (err) {
     res.status(500).send({
       status: "fail",
       message: err,
     });
-  }
+  } 
 };
 
 // validate email

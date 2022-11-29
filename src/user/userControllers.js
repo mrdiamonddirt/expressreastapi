@@ -68,13 +68,23 @@ exports.getUser = async (req, res) => {
 // update user may change to update account password after login
 
 exports.updateUser = async (req, res) => {
-  console.log(req.params);
+  console.log(req.body);
   try {
-    const user = await User.update(req.body, {
+
+    const updateObject = { [req.body.key] : req.body.value };
+    console.log(updateObject);
+    const user = await User.update(updateObject, {
       where: {
-        id: req.params.id,
+      name : req.body.user
       },
     });
+    if (user) {
+    return res.status(500).send({
+      status: "failed",
+      message: "user not found",
+      data: null
+    });
+    }
     return res.status(200).send({
       status: "success",
       data: {

@@ -4,11 +4,11 @@ const {hashPassword, comparePassword, tokenCheck, validateEmail} = require('../m
 const userRouter = Router();
 
 userRouter.post('/addUser', hashPassword, validateEmail, createUsers); // create user and account
-userRouter.post('/loginUser', comparePassword,  loginUser); // token check removed
+userRouter.post('/loginUser', comparePassword, loginUser); // token check removed
 userRouter.get('/getUsers', getAllUsers); // return all users
 // userRouter.get('/getUser/:id?', getUser);
-userRouter.put('/updateUser/', hashPassword, updateUser); // change password
+userRouter.put('/updateUser', updateUser); // change password
 // userRouter.get('/getUser', getUser);
-userRouter.delete('/deleteUser/',hashPassword, deleteUser); //delete account after password check
+userRouter.delete('/deleteUser',hashPassword, deleteUser); //delete account after password check
 
 module.exports = userRouter;
