@@ -48,7 +48,7 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-// get one user data from db 
+// get one user data from db
 exports.getUser = async (req, res) => {
   console.log(req.params);
   try {
@@ -70,20 +70,19 @@ exports.getUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   console.log(req.body);
   try {
-
-    const updateObject = { [req.body.key] : req.body.value };
+    const updateObject = { [req.body.key]: req.body.value };
     console.log(updateObject);
     const user = await User.update(updateObject, {
       where: {
-      name : req.body.user
+        name: req.body.user,
       },
     });
     if (user) {
-    return res.status(500).send({
-      status: "failed",
-      message: "user not found",
-      data: null
-    });
+      return res.status(500).send({
+        status: "failed",
+        message: "user not found",
+        data: null,
+      });
     }
     return res.status(200).send({
       status: "success",
@@ -126,22 +125,21 @@ exports.deleteUser = async (req, res) => {
 
 // login user and return token
 exports.loginUser = async (req, res) => {
-    console.log(req.body);
+  console.log(req.body);
   try {
-    if (req.user) {
-        console.log("user found");
-        console.log(req.user)
-        res.status(200).send({ name: req.user.name });
-      } 
-      else{ 
-        const user = await User.findOne({ 
-            where:
-            {name: req.body.name} 
-        });
-        console.log(user);
-        const token = await JWT.sign({ _id: user.id }, process.env.JWT_SECRET);
-        res.status(200).send({ user: user.name, token: token });
-      }
+    if (req.authUser) {
+      console.log("user found");
+      console.log(req.user);
+      res.status(200).send({ name: req.authUser.name });
+    } else {
+      const user = await User.findOne({
+        where: { name: req.body.name },
+      });
+      console.log(user);
+      const token = await JWT.sign({ _id: user.id }, process.env.JWT_SECRET);
+      console.log(token);
+      res.status(200).send({ user: user.name, token: token });
+    }
   } catch (err) {
     console.log(err);
     res.status(500).send({

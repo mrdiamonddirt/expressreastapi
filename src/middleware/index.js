@@ -21,15 +21,21 @@ exports.hashPassword = async (req, res, next) => {
 
 exports.comparePassword = async (req, res, next) => {
   try {
-    req.user = await User.findOne({ 
-      where:
-      {email: req.body.email} 
-    });
-    if (req.user && await bcrypt.compare(req.body.password, req.user.password)) {
-      console.log("username and password match");
+    if (req.authUser) {
       next();
     } else {
-      throw new Error('Invalid username or password');
+      req.user = await User.findOne({
+        where: { email: req.body.email },
+      });
+      if (
+        req.user &&
+        (await bcrypt.compare(req.body.password, req.user.password))
+      ) {
+        console.log("username and password match");
+        next();
+      } else {
+        throw new Error("Invalid username or password");
+      }
     }
   } catch (err) {
     res.status(500).send({
@@ -43,14 +49,16 @@ exports.comparePassword = async (req, res, next) => {
 
 exports.tokenCheck = async (req, res, next) => {
   try {
-    const token = req.header("Authorization").replace("Bearer ", "");
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded)
-    const user = await User.findByPk(decoded._id);
-    if (user) {
-      req.user = user;
+    if (req.header("Authorization")) {
+      const token = req.header("Authorization").replace("Bearer ", "");
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      console.log(decoded);
+      const user = await User.findByPk(decoded._id);
+      req.authUser = user;
       console.log("Token Verified");
-      console.log(user); 
+      console.log(user);
+    } else {
+      console.log("No token found");
     }
     next();
   } catch (err) {
@@ -58,7 +66,7 @@ exports.tokenCheck = async (req, res, next) => {
       status: "fail",
       message: err,
     });
-  } 
+  }
 };
 
 // validate email
