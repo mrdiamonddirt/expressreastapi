@@ -161,7 +161,7 @@ exports.loginUser = async (req, res) => {
 // const sequelizeJoin = async () => {
 //   User.hasMany(Movie, { foreignKey: "userId" });
 //   Movie.belongsTo(User, { foreignKey: "userId" });
-
+//   User.belongsToMany(Movie, { through: "user_movies" });
 //   const leftOuterJoin = await User.findAll({
 //     include: {
 //       model: Movie,
@@ -171,3 +171,24 @@ exports.loginUser = async (req, res) => {
 //   console.log(JSON.stringify(leftOuterJoin, null, 2));
 // };
 // sequelizeJoin();
+
+// const addMovie = async () => {
+//   let userID = await User.findAll({
+//     where: {
+//       name: "test",
+//     },
+//     attributes: ["id"],
+//   });
+//   console.log(userID);
+//   let id = userID[0].dataValues.id;
+//   console.log(id);
+
+//   let findMovies = await Movie.findAll({
+//     where: {
+//       userID: id,
+//     },
+//   });
+//   console.table(findMovies.map((value) => value.dataValues));
+// };
+
+// addMovie()
