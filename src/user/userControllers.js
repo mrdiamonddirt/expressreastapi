@@ -192,3 +192,19 @@ exports.loginUser = async (req, res) => {
 // };
 
 // addMovie()
+
+// const findMovies = async () => {
+//   let user = "test";
+
+//   const [results] = await sequelize.query(
+//     `SELECT * FROM movies JOIN users ON users.id = movies.userId WHERE users.name = '${user}'`
+//   )
+// }
+
+// const findMovies = async () => {
+//   let user = "test";
+
+//   const [results] = await sequelize.query(
+//     `SELECT MovieId FROM user_movies JOIN users ON users.id = user_movies.userId WHERE users.name = '${user}'`
+//   );
+// };
