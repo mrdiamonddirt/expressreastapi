@@ -156,3 +156,18 @@ exports.loginUser = async (req, res) => {
 //   );
 //   console.log(results.map((value) => value.id));
 // };
+
+// creating a many to many relationship using sequelize
+// const sequelizeJoin = async () => {
+//   User.hasMany(Movie, { foreignKey: "userId" });
+//   Movie.belongsTo(User, { foreignKey: "userId" });
+
+//   const leftOuterJoin = await User.findAll({
+//     include: {
+//       model: Movie,
+//       as: "movies",
+//     },
+//   });
+//   console.log(JSON.stringify(leftOuterJoin, null, 2));
+// };
+// sequelizeJoin();
