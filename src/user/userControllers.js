@@ -199,6 +199,7 @@ exports.loginUser = async (req, res) => {
 //   const [results] = await sequelize.query(
 //     `SELECT * FROM movies JOIN users ON users.id = movies.userId WHERE users.name = '${user}'`
 //   )
+//     console.log(results.map((value) => value.id));
 // }
 
 // const findMovies = async () => {
@@ -207,4 +208,21 @@ exports.loginUser = async (req, res) => {
 //   const [results] = await sequelize.query(
 //     `SELECT MovieId FROM user_movies JOIN users ON users.id = user_movies.userId WHERE users.name = '${user}'`
 //   );
+//   console.table(results.map((value) => value.MovieId));
+// };
+
+// Example of a caseStatement
+// const caseStatements = async () => {
+//   const [results] = await sequelize.query(
+//     `Select amount, id,
+//     CASE
+//     WHEN amount > 100
+//     THEN 'big'
+//     WHEN amount < 100
+//     THEN 'small'
+//     ELSE 'medium'
+//     END AS amount from orders
+//     FROM Invoices`
+//   );
+//   console.log(results);
 // };
