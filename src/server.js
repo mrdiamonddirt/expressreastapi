@@ -13,10 +13,9 @@ app.use(express.json());
 app.use(userRouter);
 
 // get health from server
-app.get("/health"),
-  (req, res) => {
-    res.status(200).send({ message: "API is working" });
-  };
+app.get("/health", (req, res) => {
+  res.status(200).send({ message: "API is working" });
+});
 
 // sequelize connection
 sequelize
