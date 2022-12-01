@@ -37,10 +37,6 @@ const User = sequelize.define("User", {
     type: DataTypes.DATE,
     allowNull: false,
   },
-  favouriteFilms: {
-    type: DataTypes.ARRAY(DataTypes.INTEGER),
-    allowNull: true,
-  },
 });
 
 module.exports = User;
