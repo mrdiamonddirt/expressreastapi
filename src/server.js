@@ -17,6 +17,14 @@ app.get("/health", (req, res) => {
   res.status(200).send({ message: "API is working" });
 });
 
+// raw sequelize connection
+// const rawJoin = async () => {
+//   const [results, metadata] = await sequelize.query(
+//     "SELECT * FROM users JOIN movies ON users.id = movies.userId"
+//   );
+//   console.log(results.map((value) => value.id));
+// };
+
 // sequelize connection
 sequelize
   .authenticate()
