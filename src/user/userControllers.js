@@ -148,3 +148,11 @@ exports.loginUser = async (req, res) => {
     });
   }
 };
+
+// raw Join query
+// const rawJoin = async () => {
+//   const [results, metadata] = await sequelize.query(
+//     "SELECT * FROM users JOIN movies ON users.id = movies.userId"
+//   );
+//   console.log(results.map((value) => value.id));
+// };
