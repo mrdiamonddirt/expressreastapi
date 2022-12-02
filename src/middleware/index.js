@@ -34,7 +34,7 @@ exports.comparePassword = async (req, res, next) => {
         console.log("username and password match");
         next();
       } else {
-        throw new Error("Invalid username or password");
+        throw new Error("Invalid Credentials");
       }
     }
   } catch (err) {

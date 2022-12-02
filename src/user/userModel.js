@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../db/connection");
 
-// sequalize auto to auto generate the table
+// sequelizeAuto to auto generate the table
 
 const User = sequelize.define("User", {
   // Model attributes are defined here
