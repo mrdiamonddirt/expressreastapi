@@ -3,26 +3,20 @@ const { sequelize } = require("../db/connection");
 
 // sequelizeAuto to auto generate the table
 
-const User = sequelize.define("User", {
+const Movies = sequelize.define("Movies", {
     // Model attributes are defined here
-    id: {
+    user_id: {
         type: DataTypes.INTEGER,
-        autoIncrement: true,
+        allowNull: false,
+        unique: true,
         primaryKey: true,
+        foreignKey: true,
     },
-    name: {
-        type: DataTypes.STRING,
+    movie_id: {
+        type: DataTypes.INTEGER,
         allowNull: false,
         unique: true,
-    },
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-    },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        primaryKey: true,
     },
     createdAt: {
         type: DataTypes.DATE,
@@ -34,4 +28,4 @@ const User = sequelize.define("User", {
     },
 });
 
-module.exports = User;
+module.exports = Movies;

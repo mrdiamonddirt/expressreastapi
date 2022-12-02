@@ -1,17 +1,17 @@
 const { Router } = require("express");
 const {
-  createUsers,
-  getAllUsers,
-  getUser,
-  loginUser,
-  updateUser,
-  deleteUser,
+    createUsers,
+    getAllUsers,
+    getUser,
+    loginUser,
+    updateUser,
+    deleteUser,
 } = require("./userControllers");
 const {
-  hashPassword,
-  comparePassword,
-  tokenCheck,
-  validateEmail,
+    hashPassword,
+    comparePassword,
+    tokenCheck,
+    validateEmail,
 } = require("../middleware");
 const userRouter = Router();
 
