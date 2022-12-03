@@ -3,7 +3,7 @@ const { sequelize } = require("../db/connection");
 
 // sequelizeAuto to auto generate the table
 
-const Movies = sequelize.define("Movies", {
+const Favorite = sequelize.define("Favorite", {
     // Model attributes are defined here
     user_id: {
         type: DataTypes.INTEGER,
@@ -18,14 +18,6 @@ const Movies = sequelize.define("Movies", {
         unique: true,
         primaryKey: true,
     },
-    createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-    },
-    updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-    },
 });
 
-module.exports = Movies;
+module.exports = Favorite;
