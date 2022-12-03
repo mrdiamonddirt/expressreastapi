@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../db/connection");
+const favoriteRouter = require("./favoriteRouter");
 
 // sequelizeAuto to auto generate the table
 

@@ -14,16 +14,16 @@ app.use(cors());
 app.use(express.json());
 app.use(userRouter);
 
-async function relationships() {
-    User.hasMany(Favorite, {
-        foreignKey: "user_id",
-        sourceKey: "id",
-    });
-    Favorite.belongsTo(User);
+// async function relationships() {
+//     User.hasMany(Favorite, {
+//         foreignKey: "user_id",
+//         sourceKey: "id",
+//     });
+//     Favorite.belongsTo(User);
 
-    sequelize.sync();
-}
-relationships();
+//     sequelize.sync();
+// }
+// relationships();
 
 // get health from server
 app.get("/health", (req, res) => {

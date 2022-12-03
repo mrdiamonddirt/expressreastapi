@@ -4,7 +4,7 @@ const Favorite = require("./favoriteModel");
 
 // check if table users exists if not create it
 Favorite.sync({ force: false }).then(() => {
-    console.log("table created");
+    console.log("Favorite table created");
 });
 
 // add new movie selected id to db
