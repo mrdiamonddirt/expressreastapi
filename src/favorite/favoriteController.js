@@ -3,12 +3,12 @@ const { Sequelize } = require("sequelize");
 const Favorite = require("./favoriteModel");
 
 // check if table users exists if not create it
-Favorite.sync({ force: false }).then(() => {
-    console.log("Favorite table created");
-});
+// Favorite.sync({ force: false }).then(() => {
+//     console.log("Favorite table created");
+// });
 
 // add new movie selected id to db
-export const addFavorite = async (req, res) => {
+exports.addFavorite = async (req, res) => {
     try {
         const favorite = await Favorite.create({
             movieId: req.body.movieId,
@@ -27,7 +27,7 @@ export const addFavorite = async (req, res) => {
     }
 };
 // delete movie id from db
-export const deleteFavorite = async (req, res) => {
+exports.deleteFavorite = async (req, res) => {
     try {
         const favorite = await Favorite.destroy({
             where: {
@@ -49,7 +49,7 @@ export const deleteFavorite = async (req, res) => {
 };
 // read all movies id's from db
 
-export const getFavorites = async (req, res) => {
+exports.getFavorites = async (req, res) => {
     try {
         const favorites = await Favorite.findAll();
         res.status(200).send({
@@ -65,7 +65,7 @@ export const getFavorites = async (req, res) => {
     }
 };
 // get all movie id's from db for specific user_id
-export const getFavoritesByUserId = async (req, res) => {
+exports.getFavoritesByUserId = async (req, res) => {
     try {
         const favorites = await Favorite.findAll({
             where: {
