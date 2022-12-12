@@ -3,8 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const userRouter = require("./user/userRouter");
 const { User } = require("./user/userModel");
-const favoriteRouter = require("./favorite/favoriteRouter");
-const { Favorite } = require("./favorite/favoriteModel");
+// const favoriteRouter = require("./favorite/favoriteRouter");
+// const { Favorite } = require("./favorite/favoriteModel");
 // port connection
 const port = process.env.PORT || 5001;
 
