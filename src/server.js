@@ -38,11 +38,21 @@ app.get("/health", (req, res) => {
     res.status(200).send({ message: "API is working" });
 });
 
+let connectedUsers = [];
 // listen for socket io connection
 io.on("connection", (socket) => {
-    console.log("a user connected");
+    console.log("a user connected", socket.id);
+    // add user to array of connected users
+    connectedUsers[socket.id] = {
+        socketId: socket.id,
+    };
+    console.log(connectedUsers);
+    console.log("number of users online", Object.keys(connectedUsers).length);
     socket.on("disconnect", () => {
         console.log("user disconnected");
+        // remove user from array of connected users
+        console.log(connectedUsers);
+        delete connectedUsers[socket.id];
     });
 });
 
