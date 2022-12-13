@@ -53,6 +53,10 @@ io.on("connection", (socket) => {
         // remove user from array of connected users
         console.log(connectedUsers);
         delete connectedUsers[socket.id];
+        console.log(
+            "number of users online",
+            Object.keys(connectedUsers).length
+        );
     });
 });
 
