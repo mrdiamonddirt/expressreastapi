@@ -9,7 +9,7 @@ const app = express();
 // port connection
 const port = process.env.PORT || 5001;
 // socket io port
-const socketPort = 5005;
+const socketPort = 3005;
 
 // express app
 
@@ -19,7 +19,12 @@ app.use(cors());
 const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(server, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"],
+    },
+});
 
 server.listen(socketPort, () => {
     console.log(`Socket io is running on port ${socketPort}`);
