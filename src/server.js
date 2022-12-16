@@ -8,8 +8,6 @@ const app = express();
 // const { Favorite } = require("./favorite/favoriteModel");
 // port connection
 const port = process.env.PORT || 5001;
-// socket io port
-const socketPort = 3005;
 
 // express app
 
@@ -26,10 +24,6 @@ const io = new Server(server, {
     },
 });
 
-server.listen(socketPort, () => {
-    console.log(`Socket io is running on port ${socketPort}`);
-});
-
 app.use(express.json());
 app.use(userRouter);
 // app.use(favoriteRouter);
@@ -42,11 +36,15 @@ let connectedUsers = [];
 // listen for socket io connection
 io.on("connection", (socket) => {
     console.log("a user connected", socket.id);
+    // get username from client
+    const { username, token } = socket.handshake.auth;
     // add user to array of connected users
-    connectedUsers[socket.id] = {
+    connectedUsers = {
+        username: username,
         socketId: socket.id,
+        token: token,
     };
-    console.log(connectedUsers);
+    console.log("username", username);
     console.log("number of users online", Object.keys(connectedUsers).length);
     socket.on("disconnect", () => {
         console.log("user disconnected");
@@ -71,6 +69,10 @@ sequelize
     });
 
 // listener
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+// app.listen(port, () => {
+//     console.log(`Server is running on port ${port}`);
+// });
+
+server.listen(port, () => {
+    console.log(`Socket io is running on port ${port}`);
 });
